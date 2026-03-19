@@ -4,6 +4,7 @@ export async function getEventDetails(): Promise<Record<string, number>[]> {
   // Get current days events
   const data = await fetch(
     "http://sports.core.api.espn.com/v2/sports/hockey/leagues/nhl/events",
+    { next: { revalidate: 1800 } }, // Revalidate every 30 minutes
   ).then((res) => res.json());
 
   // Extract event IDs

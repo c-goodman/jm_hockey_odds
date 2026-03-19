@@ -6,7 +6,7 @@ export function parseAndSortDetails(
       // Remove any "N/A" entries
       .filter((d) => d !== "N/A")
 
-      // Convert "BOS -142" → { BOS: -142 }
+      // Convert "BOS -142" → { "BOS": -142 }
       .map((d) => {
         const [team, odds] = d.split(" ");
         return { [team]: Number(odds) };
