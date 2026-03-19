@@ -1,3 +1,5 @@
+"use server";
+
 import { getCache, setCache } from "./cache";
 import { parseAndSortDetails } from "./utils";
 
