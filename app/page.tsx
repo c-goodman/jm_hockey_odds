@@ -1,5 +1,5 @@
 import { getEventDetails } from "@/lib/queries";
-import { DISCLAIMER } from "@/lib/constants";
+import { DISCLAIMER_A, DISCLAIMER_B } from "@/lib/constants";
 
 export default async function Home() {
   const events = await getEventDetails();
@@ -26,7 +26,18 @@ export default async function Home() {
           );
         })}
       </div>
-      <p className="text-sm text-gray-500 mt-12">{DISCLAIMER}</p>
+      <p className="text-sm text-gray-500 mt-12">
+        {DISCLAIMER_A}
+        <a
+          href="https://www.espn.com/nhl/odds"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-gray-500 underline hover:text-blue-400"
+        >
+          ESPN API v2
+        </a>
+        {DISCLAIMER_B}
+      </p>
     </div>
   );
 }
