@@ -1,11 +1,13 @@
 import { getEventDetails } from "@/lib/queries";
+import { DISCLAIMER } from "@/lib/constants";
 
 export default async function Home() {
   const events = await getEventDetails();
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">NHL Favorites</h1>
+      <h1 className="text-3xl font-bold ">NHL Favorites</h1>
+      <p className="text-sm text-gray-500 mb-6">Updated Every 30 Minutes</p>
 
       <div className="gap-3">
         {events.map((event, i) => {
@@ -14,14 +16,17 @@ export default async function Home() {
           return (
             <div
               key={i}
-              className="mb-1 shadow-sm p-4 transition"
+              className="mb-1 shadow-sm p-4 transition hover:shadow-md"
             >
-              <p className="text-lg font-semibold">{team} {value}</p>
-              
+              <p className="text-lg font-semibold">{team}</p>
+              <p>
+                {value.odds} / {value.probability}%
+              </p>
             </div>
           );
         })}
       </div>
+      <p className="text-sm text-gray-500 mt-12">{DISCLAIMER}</p>
     </div>
   );
 }

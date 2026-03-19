@@ -1,6 +1,8 @@
 import { parseAndSortDetails } from "./utils";
 
-export async function getEventDetails(): Promise<Record<string, number>[]> {
+export async function getEventDetails(): Promise<
+  Record<string, Record<string, number>>[]
+> {
   // Get current days events
   const data = await fetch(
     "http://sports.core.api.espn.com/v2/sports/hockey/leagues/nhl/events",
