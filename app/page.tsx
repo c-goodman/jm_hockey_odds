@@ -2,12 +2,15 @@ import { getEventDetails } from "@/lib/queries";
 import { DISCLAIMER_A, DISCLAIMER_B } from "@/lib/constants";
 
 export default async function Home() {
-  const events = await getEventDetails();
+  const { events, lastUpdated } = await getEventDetails();
 
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold ">NHL Favorites</h1>
-      <p className="text-sm text-gray-500 mb-6">Updated Every 30 Minutes</p>
+      <p className="text-sm text-gray-500">Updated Every 30 Minutes</p>
+      <p className="text-sm text-gray-500 mb-6">
+        Last updated: {new Date(lastUpdated).toLocaleString()}
+      </p>
 
       <div className="gap-3">
         {events.map((event, i) => {

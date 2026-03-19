@@ -1,8 +1,20 @@
+import { getCache, setCache } from "./cache";
 import { parseAndSortDetails } from "./utils";
 
-export async function getEventDetails(): Promise<
-  Record<string, Record<string, number>>[]
-> {
+export async function getEventDetails(): Promise<{
+  events: Record<string, Record<string, number>>[];
+  lastUpdated: string;
+}> {
+  const { cachedEvents, lastFetched } = getCache();
+
+  if (cachedEvents.length > 0) {
+    // Return cached data
+    return {
+      events: cachedEvents,
+      lastUpdated: lastFetched!,
+    };
+  }
+
   // Get current days events
   const data = await fetch(
     "http://sports.core.api.espn.com/v2/sports/hockey/leagues/nhl/events",
@@ -19,6 +31,7 @@ export async function getEventDetails(): Promise<
     eventIds.map(async (id) => {
       const oddsData = await fetch(
         `http://sports.core.api.espn.com/v2/sports/hockey/leagues/nhl/events/${id}/competitions/${id}/odds`,
+        { next: { revalidate: 1800 } }, // Revalidate every 30 minutes
       ).then((res) => res.json());
 
       // Return the details string -> "BOS -142"
@@ -28,5 +41,11 @@ export async function getEventDetails(): Promise<
 
   const parsedDetails = parseAndSortDetails(details);
 
-  return parsedDetails;
+  // Store in cache
+  setCache(parsedDetails);
+
+  return {
+    events: parsedDetails,
+    lastUpdated: lastFetched!,
+  };
 }
